@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nama Anda — aspiring developer | portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #F5F3ED;
+    --bg-soft: #ECE9E0;
+    --ink: #1E1D1A;
+    --ink-soft: #55524A;
+    --grey: #8B8677;
+    --accent: #3B6E58;
+    --accent-soft: #C9D8CE;
+    --line: rgba(30,29,26,0.14);
+    --serif: 'Fraunces', serif;
+    --sans: 'Inter', sans-serif;
+    --mono: 'IBM Plex Mono', monospace;
+  }
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--sans);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    *{ animation-duration:0.01ms !important; transition-duration:0.01ms !important; }
+  }
+  a{ color:inherit; text-decoration:none; }
+  a:focus-visible, button:focus-visible{ outline:2px solid var(--accent); outline-offset:3px; }
+  .wrap{ max-width:960px; margin:0 auto; padding:0 32px; }
+
+  /* NAV */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:rgba(245,243,237,0.88);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  nav.wrap{ display:flex; align-items:center; justify-content:space-between; padding:20px 32px; }
+  .brand{ font-family:var(--mono); font-size:13px; letter-spacing:0.04em; }
+  .navlinks{ display:flex; gap:26px; font-family:var(--mono); font-size:13px; }
+  .navlinks a{ position:relative; color:var(--ink-soft); transition:color 0.2s ease; }
+  .navlinks a:hover{ color:var(--ink); }
+  .navlinks a::after{
+    content:''; position:absolute; left:0; bottom:-4px; width:0; height:1px;
+    background:var(--accent); transition:width 0.25s ease;
+  }
+  .navlinks a:hover::after{ width:100%; }
+  @media (max-width:640px){ .navlinks{ gap:14px; font-size:11px; } }
+
+  /* HERO */
+  .hero{ padding:100px 0 72px; display:grid; grid-template-columns:1.3fr 0.7fr; gap:48px; align-items:center; }
+  .hero h1{
+    font-family:var(--serif); font-weight:500; font-size:clamp(36px, 6vw, 64px); line-height:1.05; letter-spacing:-0.01em;
+  }
+  .hero h1 .underline{
+    display:block; height:3px; background:var(--accent); width:0%;
+    animation:draw 1.1s cubic-bezier(.65,0,.35,1) 0.3s forwards; margin-top:6px;
+  }
+  @keyframes draw{ to{ width:48%; } }
+  .hero .role{ font-family:var(--mono); font-size:14px; color:var(--accent); margin-top:18px; }
+  .hero p.lede{ margin-top:20px; max-width:48ch; font-size:16.5px; color:var(--ink-soft); }
+  .quick-social{ display:flex; gap:16px; margin-top:28px; font-family:var(--mono); font-size:13px; }
+  .quick-social a{ color:var(--ink-soft); transition:color 0.2s ease; }
+  .quick-social a:hover{ color:var(--accent); }
+
+  /* photo slot in hero */
+  .photo-slot{
+    aspect-ratio:1/1; border:1.5px dashed var(--grey); border-radius:6px;
+    display:flex; align-items:center; justify-content:center; flex-direction:column; gap:8px;
+    background:var(--bg-soft); overflow:hidden; text-align:center; padding:16px;
+  }
+  .photo-slot img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .photo-slot .ph-label{ font-family:var(--mono); font-size:11px; color:var(--grey); letter-spacing:0.04em; }
+  .photo-slot .ph-icon{ font-size:22px; color:var(--grey); }
+
+  @media (max-width:720px){
+    .hero{ grid-template-columns:1fr; }
+    .photo-slot{ max-width:220px; margin:0 auto; }
+  }
+
+  /* SECTIONS */
+  section{ padding:80px 0; border-top:1px solid var(--line); }
+  .section-label{
+    font-family:var(--mono); font-size:12px; color:var(--grey); letter-spacing:0.08em;
+    margin-bottom:14px; display:flex; gap:10px; align-items:center;
+  }
+  .section-label::before{ content:''; width:24px; height:1px; background:var(--accent); }
+  .section-title{
+    font-family:var(--serif); font-weight:500; font-size:clamp(26px, 4vw, 36px); margin-bottom:32px; max-width:20ch;
+  }
+
+  /* ABOUT */
+  .about-grid{ display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:start; }
+  .about-grid p{ color:var(--ink-soft); font-size:16px; margin-bottom:16px; }
+  .tools{ display:flex; flex-wrap:wrap; gap:10px; margin-top:8px; }
+  .tool-pill{
+    font-family:var(--mono); font-size:12px; padding:6px 12px; border:1px solid var(--line);
+    border-radius:20px; color:var(--ink-soft);
+  }
+  @media (max-width:720px){ .about-grid{ grid-template-columns:1fr; } }
+
+  /* PROJECTS (amsryq-style numbered list, not grid cards) */
+  .project-list{ display:flex; flex-direction:column; }
+  .project-row{
+    display:grid; grid-template-columns:60px 1fr; gap:24px; padding:32px 0; border-bottom:1px solid var(--line);
+  }
+  .project-row:first-child{ padding-top:0; }
+  .p-num{ font-family:var(--mono); font-size:14px; color:var(--accent); padding-top:4px; }
+  .p-eyebrow{ font-family:var(--mono); font-size:12px; color:var(--grey); letter-spacing:0.03em; margin-bottom:8px; }
+  .project-row h3{ font-family:var(--serif); font-weight:500; font-size:24px; margin-bottom:8px; }
+  .project-row p{ color:var(--ink-soft); font-size:15px; max-width:56ch; margin-bottom:14px; }
+  .p-meta{ display:flex; flex-wrap:wrap; gap:10px; align-items:center; font-family:var(--mono); font-size:12.5px; }
+  .p-meta .stack{ color:var(--accent); }
+  .p-meta .dot-sep{ color:var(--grey); }
+  .p-meta .stat{ color:var(--grey); }
+  .p-link{
+    margin-top:14px; display:inline-flex; align-items:center; gap:6px; font-family:var(--mono); font-size:13px;
+  }
+  .p-link::after{ content:'↗'; transition:transform 0.2s ease; }
+  .p-link:hover::after{ transform:translate(2px,-2px); }
+
+  /* SOCIALS */
+  .connect-list{ display:grid; border-top:1px solid var(--line); }
+  .connect-item{
+    display:flex; align-items:center; justify-content:space-between; padding:20px 0;
+    border-bottom:1px solid var(--line); transition:padding-left 0.2s ease;
+  }
+  .connect-item:hover{ padding-left:10px; }
+  .connect-item .platform{ font-family:var(--serif); font-size:21px; }
+  .connect-item .handle{ font-family:var(--mono); font-size:13px; color:var(--grey); }
+  .connect-item .arrow{ font-family:var(--mono); color:var(--accent); opacity:0; transition:opacity 0.2s ease; }
+  .connect-item:hover .arrow{ opacity:1; }
+
+  /* CONTACT */
+  .contact-box{
+    background:var(--bg-soft); border:1px solid var(--line); border-radius:10px;
+    padding:48px; display:flex; flex-direction:column; gap:18px; align-items:flex-start;
+  }
+  .contact-box p{ color:var(--ink-soft); max-width:44ch; }
+  .btn{
+    font-family:var(--mono); font-size:13px; padding:12px 22px; border:1px solid var(--ink);
+    letter-spacing:0.02em; transition:background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    background:var(--ink); color:var(--bg); display:inline-flex; align-items:center; gap:8px;
+  }
+  .btn:hover{ background:var(--accent); border-color:var(--accent); }
+
+  footer{
+    padding:36px 0 60px; font-family:var(--mono); font-size:12px; color:var(--grey);
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;
+  }
+
+  .reveal{ opacity:0; transform:translateY(16px); transition:opacity 0.6s ease, transform 0.6s ease; }
+  .reveal.in{ opacity:1; transform:translateY(0); }
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="wrap">
+    <div class="brand">nama_anda.</div>
+    <div class="navlinks">
+      <a href="#about">about</a>
+      <a href="#projects">projects</a>
+      <a href="#socials">socials</a>
+      <a href="#contact">contact</a>
+    </div>
+  </nav>
+</header>
+
+<main class="wrap">
+
+  <section class="hero" style="border-top:none;">
+    <div>
+      <h1>Nama Anda<span class="underline"></span></h1>
+      <div class="role">aspiring developer | tech enthusiast</div>
+      <p class="lede">
+        Saya bina produk digital yang ringkas dan berfungsi. Ruang ini tempat saya
+        kongsikan siapa saya, apa yang pernah saya bina, dan cara nak hubungi saya.
+      </p>
+      <div class="quick-social">
+        <a href="#">GitHub</a>
+        <a href="#">LinkedIn</a>
+        <a href="#">Instagram</a>
+        <a href="#contact">Email ↗</a>
+      </div>
+    </div>
+
+    <!-- ===== RUANG GAMBAR ANDA ===== -->
+    <!-- Ganti src="" di bawah dengan path/link gambar anda, contoh: src="gambar-saya.jpg" -->
+    <div class="photo-slot">
+      <img src="" alt="Gambar profil anda" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+      <div style="display:flex; flex-direction:column; align-items:center; gap:8px;">
+        <span class="ph-icon">＋</span>
+        <span class="ph-label">LETAK GAMBAR<br>ANDA DI SINI</span>
+      </div>
+    </div>
+
+  </section>
+
+  <section id="about" class="reveal">
+    <div class="section-label">01 — ABOUT</div>
+    <h2 class="section-title">Sikit pasal saya</h2>
+    <div class="about-grid">
+      <div>
+        <p>
+          Tulis di sini pengenalan ringkas pasal diri anda — siapa anda, apa yang anda
+          buat, dan minat anda dalam bidang ini. Boleh sertakan latar belakang
+          pendidikan atau pengalaman kerja yang relevan.
+        </p>
+        <p>
+          Tambah satu lagi perenggan pasal fokus anda sekarang, atau apa yang buat
+          anda unik berbanding orang lain dalam bidang yang sama.
+        </p>
+      </div>
+      <div>
+        <div class="p-eyebrow">Languages &amp; Tools</div>
+        <div class="tools">
+          <span class="tool-pill">JavaScript</span>
+          <span class="tool-pill">TypeScript</span>
+          <span class="tool-pill">React</span>
+          <span class="tool-pill">Node.js</span>
+          <span class="tool-pill">Figma</span>
+          <span class="tool-pill">Git</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects" class="reveal">
+    <div class="section-label">02 — PROJECTS</div>
+    <h2 class="section-title">Kerja-kerja yang pernah saya buat</h2>
+    <div class="project-list">
+
+      <div class="project-row">
+        <div class="p-num">01</div>
+        <div>
+          <div class="p-eyebrow">Aplikasi web / student utility</div>
+          <h3>Nama Projek Satu</h3>
+          <p>Penerangan ringkas pasal projek ini — masalah yang diselesaikan dan peranan anda dalam projek tersebut.</p>
+          <div class="p-meta">
+            <span class="stack">React, Node.js, PostgreSQL</span>
+            <span class="dot-sep">·</span>
+            <span class="stat">1,000+ pengguna</span>
+          </div>
+          <a class="p-link" href="#">Lihat projek</a>
+        </div>
+      </div>
+
+      <div class="project-row">
+        <div class="p-num">02</div>
+        <div>
+          <div class="p-eyebrow">Browser extension / tooling</div>
+          <h3>Nama Projek Dua</h3>
+          <p>Penerangan ringkas pasal projek ini — masalah yang diselesaikan dan peranan anda dalam projek tersebut.</p>
+          <div class="p-meta">
+            <span class="stack">TypeScript, Browser Extension API</span>
+            <span class="dot-sep">·</span>
+            <span class="stat">5+ ciri</span>
+          </div>
+          <a class="p-link" href="#">Lihat projek</a>
+        </div>
+      </div>
+
+      <div class="project-row">
+        <div class="p-num">03</div>
+        <div>
+          <div class="p-eyebrow">Design / UI-UX</div>
+          <h3>Nama Projek Tiga</h3>
+          <p>Penerangan ringkas pasal projek ini — masalah yang diselesaikan dan peranan anda dalam projek tersebut.</p>
+          <div class="p-meta">
+            <span class="stack">Figma, Design System</span>
+            <span class="dot-sep">·</span>
+            <span class="stat">3 platform</span>
+          </div>
+          <a class="p-link" href="#">Lihat projek</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="socials" class="reveal">
+    <div class="section-label">03 — SOCIALS</div>
+    <h2 class="section-title">Boleh jumpa saya di sini</h2>
+    <div class="connect-list">
+      <a class="connect-item" href="#">
+        <span class="platform">GitHub</span>
+        <span class="handle">@nama-anda</span>
+        <span class="arrow">↗</span>
+      </a>
+      <a class="connect-item" href="#">
+        <span class="platform">LinkedIn</span>
+        <span class="handle">/in/nama-anda</span>
+        <span class="arrow">↗</span>
+      </a>
+      <a class="connect-item" href="#">
+        <span class="platform">Instagram</span>
+        <span class="handle">@nama.anda</span>
+        <span class="arrow">↗</span>
+      </a>
+      <a class="connect-item" href="#">
+        <span class="platform">X</span>
+        <span class="handle">@nama_anda</span>
+        <span class="arrow">↗</span>
+      </a>
+    </div>
+  </section>
+
+  <section id="contact" class="reveal">
+    <div class="section-label">04 — CONTACT</div>
+    <h2 class="section-title">Get in touch</h2>
+    <div class="contact-box">
+      <p>Ada sesuatu yang boleh saya bantu buat lebih ringkas? Saya terbuka untuk perbualan menarik, kerjasama, atau idea projek baharu.</p>
+      <a class="btn" href="mailto:nama@email.com">Email Saya ↗</a>
+    </div>
+  </section>
+
+  <footer>
+    <span>© 2026 Nama Anda</span>
+    <span>Dibina dengan HTML &amp; CSS</span>
+  </footer>
+
+</main>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { threshold:0.12 });
+  reveals.forEach(el=>io.observe(el));
+</script>
+
+</body>
+</html>
