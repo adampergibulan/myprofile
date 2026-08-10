@@ -72,20 +72,53 @@
   .quick-social a{ color:var(--ink-soft); transition:color 0.2s ease; }
   .quick-social a:hover{ color:var(--accent); }
 
-  /* photo slot in hero */
-  .photo-slot{
-    aspect-ratio:1/1; border:1.5px dashed var(--grey); border-radius:6px;
-    display:flex; align-items:center; justify-content:center; flex-direction:column; gap:8px;
-    background:var(--bg-soft); overflow:hidden; text-align:center; padding:16px;
-  }
-  .photo-slot img{ width:100%; height:100%; object-fit:contain; display:block; }
-  .photo-slot .ph-label{ font-family:var(--mono); font-size:11px; color:var(--grey); letter-spacing:0.04em; }
-  .photo-slot .ph-icon{ font-size:22px; color:var(--grey); }
+/* photo slot in hero */
+.photo-slot {
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  max-width: 280px;
+  border: 3px solid #2d2d2d; /* solid dark - lebih kemas */
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: var(--bg-soft);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12); /* shadow kemas */
+  margin: 0 auto;
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* efek smooth */
+}
 
-  @media (max-width:720px){
-    .hero{ grid-template-columns:1fr; }
-    .photo-slot{ max-width:220px; margin:0 auto; }
+.photo-slot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* gambar full */
+  display: block;
+}
+
+/* efek hover - zoom sikit + shadow lagi deep */
+.photo-slot:hover {
+  transform: scale(1.03);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
+}
+
+/* sembunyi label & icon sebab dah ada gambar */
+.photo-slot .ph-label,
+.photo-slot .ph-icon {
+  display: none;
+}
+
+/* responsive */
+@media (max-width: 720px) {
+  .hero {
+    grid-template-columns: 1fr;
   }
+
+  .photo-slot {
+    max-width: 220px;
+    margin: 0 auto;
+  }
+}
 
   /* SECTIONS */
   section{ padding:80px 0; border-top:1px solid var(--line); }
@@ -108,7 +141,7 @@
   }
   @media (max-width:720px){ .about-grid{ grid-template-columns:1fr; } }
 
-  /* PROJECTS (amsryq-style numbered list, not grid cards) */
+  /* PROJECTS */
   .project-list{ display:flex; flex-direction:column; }
   .project-row{
     display:grid; grid-template-columns:60px 1fr; gap:24px; padding:32px 0; border-bottom:1px solid var(--line);
@@ -275,7 +308,7 @@
     <h3>Theme Park Ticketing System</h3>
     <p>Built a desktop ticketing application to replace manual theme park operations. Developed multi-tier pricing logic based on age categories, ticket types, and discount rules, with full input validation and database integration.</p>
     <div class="p-meta">
-      <span class="stack">VB.NET, Microsoft Access</span>
+      <span class="stack">VB.NET</span>
       <span class="dot-sep">·</span>
       <span class="stat">Desktop Application</span>
     </div>
