@@ -199,36 +199,33 @@ nav.wrap {
 .quick-social {
   display: flex;
   flex-wrap: wrap;
-  gap: 16px;
+  gap: 18px;
   margin-top: 28px;
-  font-family: var(--mono);
-  font-size: 13px;
 }
 
 .quick-social a {
+  display: inline-flex;
   color: var(--ink-soft);
-  transition: color 0.2s ease;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  opacity: 0.85;
+}
+
+.quick-social img {
+  width: 22px;
+  height: 22px;
 }
 
 .quick-social a:hover {
-  color: var(--accent);
+  opacity: 1;
+  transform: translateY(-2px);
 }
 
-/* photo slot */
+/* photo slot — no frame, no card background; the photo just sits on the page, sized as large as the hero column allows */
 .photo-slot {
-  aspect-ratio: 4 / 5; /* portrait, matches a headshot better than a square */
+  aspect-ratio: 2 / 3; /* portrait, matches a headshot better than a square */
   width: 100%;
-  max-width: 280px;
-  border: 3px solid #2d2d2d;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  background: var(--bg-soft);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  max-width: 380px;
   margin: 0 auto;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .photo-slot img {
@@ -239,25 +236,15 @@ nav.wrap {
   display: block;
 }
 
-.photo-slot:hover {
-  transform: scale(1.03);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
-}
-
-.photo-slot .ph-label,
-.photo-slot .ph-icon {
-  display: none;
-}
-
 /* ---- TABLET (laptop small / iPad landscape & portrait) ---- */
 @media (max-width: 900px) {
   .hero {
     min-height: calc(100vh - var(--header-h, 64px));
     padding: 32px 0;
     gap: 36px;
-    grid-template-columns: 1fr 220px; /* keep side-by-side but shrink photo column */
+    grid-template-columns: 1fr 300px; /* keep side-by-side but shrink photo column */
   }
-  .photo-slot { max-width: 220px; }
+  .photo-slot { max-width: 300px; }
 }
 
 /* ---- MOBILE: stack, photo on top ---- */
@@ -272,14 +259,14 @@ nav.wrap {
     text-align: left;
   }
   .photo-slot {
-    max-width: 180px;
+    max-width: 260px;
     margin: 0 auto;
   }
   .quick-social { justify-content: flex-start; }
 }
 
 @media (max-width: 400px) {
-  .photo-slot { max-width: 150px; }
+  .photo-slot { max-width: 220px; }
 }
 
 /* ----- sections ----- */
@@ -555,10 +542,10 @@ section {
 }
 
 .wheel-icon[aria-pressed="true"] img {
+  /* swap to a light icon so it stays visible on the accent-green background */
   filter: brightness(0) invert(1);
 }
 
-/* Center icon styling - ensures consistency regardless of icon source */
 .wheel-center {
   position: absolute;
   top: 50%;
@@ -578,12 +565,11 @@ section {
   padding: 12px;
 }
 
-/* Force center icon to be cream/white for contrast against dark background */
 .wheel-center-icon img {
   width: 28px;
   height: 28px;
   margin-bottom: 4px;
-  filter: brightness(0) invert(1);
+  filter: brightness(0) invert(1); /* flattens any brand-colored icon to white/cream so it reads on the dark circle */
 }
 
 .wheel-center-name {
