@@ -15,7 +15,7 @@ body {
   font-family: 'Inter', sans-serif;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
-  overflow-x: hidden; /* stops any stray element from causing horizontal scroll on mobile */
+  overflow-x: hidden;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -39,7 +39,6 @@ img {
   display: block;
 }
 
-/* ----- vars ----- */
 :root {
   --bg: #F5F3ED;
   --bg-soft: #ECE9E0;
@@ -57,11 +56,9 @@ img {
 .wrap {
   max-width: 960px;
   margin: 0 auto;
-  /* fluid side padding: never cramped on phones, never huge on desktop */
   padding: 0 clamp(20px, 5vw, 32px);
 }
 
-/* ----- header / nav ----- */
 header {
   position: sticky;
   top: 0;
@@ -98,7 +95,7 @@ nav.wrap {
   position: relative;
   color: var(--ink-soft);
   transition: color 0.2s ease;
-  padding: 4px 0; /* bigger tap target on touch devices */
+  padding: 4px 0;
 }
 
 .navlinks a:hover {
@@ -120,12 +117,10 @@ nav.wrap {
   width: 100%;
 }
 
-/* tablet: tighten nav a touch */
 @media (max-width: 900px) {
   .navlinks { gap: 18px; }
 }
 
-/* small phones: brand name + nav can get tight, shrink both */
 @media (max-width: 480px) {
   .brand { font-size: 11px; }
   .navlinks { gap: 12px; font-size: 10.5px; }
@@ -135,9 +130,8 @@ nav.wrap {
   .navlinks { gap: 9px; font-size: 9.5px; }
 }
 
-/* ----- hero ----- */
 .hero {
-  min-height: calc(100vh - var(--header-h, 70px)); /* fills the first screen; --header-h is set by JS to the real header height */
+  min-height: calc(100vh - var(--header-h, 70px));
   padding: 40px 0;
   display: grid;
   grid-template-columns: 1.3fr 0.7fr;
@@ -181,9 +175,6 @@ nav.wrap {
   color: var(--ink-soft);
 }
 
-/* fade + slide reveal for the hero's two blocks (text, photo).
-   unlike .reveal (which only plays once), this one is toggled on
-   every enter/exit so it replays each time you scroll back up to it. */
 .hero-reveal {
   opacity: 0;
   transform: translateY(28px);
@@ -222,7 +213,7 @@ nav.wrap {
 
 /* photo slot — no frame, no card background; the photo just sits on the page, sized as large as the hero column allows */
 .photo-slot {
-  aspect-ratio: 2 / 3; /* portrait, matches a headshot better than a square */
+  aspect-ratio: 2 / 3;
   width: 100%;
   max-width: 380px;
   margin: 0 auto;
@@ -232,26 +223,24 @@ nav.wrap {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: top center; /* keeps the face as the anchor point, crops from the bottom instead */
+  object-position: top center;
   display: block;
 }
 
-/* ---- TABLET (laptop small / iPad landscape & portrait) ---- */
 @media (max-width: 900px) {
   .hero {
     min-height: calc(100vh - var(--header-h, 64px));
     padding: 32px 0;
     gap: 36px;
-    grid-template-columns: 1fr 300px; /* keep side-by-side but shrink photo column */
+    grid-template-columns: 1fr 300px;
   }
   .photo-slot { max-width: 300px; }
 }
 
-/* ---- MOBILE: stack, photo on top ---- */
 @media (max-width: 680px) {
   .hero {
     display: flex;
-    flex-direction: column-reverse; /* photo (last in HTML) shows first */
+    flex-direction: column-reverse;
     justify-content: center;
     min-height: calc(100vh - var(--header-h, 56px));
     padding: 28px 0;
@@ -269,7 +258,6 @@ nav.wrap {
   .photo-slot { max-width: 220px; }
 }
 
-/* ----- sections ----- */
 section {
   padding: 80px 0;
   border-top: 1px solid var(--line);
@@ -306,7 +294,6 @@ section {
   .section-title { margin-bottom: 24px; }
 }
 
-/* about */
 .about-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -362,7 +349,6 @@ section {
   }
 }
 
-/* projects */
 .project-list {
   display: flex;
   flex-direction: column;
@@ -448,8 +434,6 @@ section {
   transform: translate(2px, -2px);
 }
 
-/* phones: drop the fixed 60px number column so title/description
-   get the full width instead of being squeezed next to it */
 @media (max-width: 560px) {
   .project-row {
     grid-template-columns: 1fr;
@@ -463,148 +447,66 @@ section {
   }
 }
 
-/* ----- socials: radial wheel ----- */
-.social-wheel-wrap {
+/* ----- socials: grid of dark cards ----- */
+.social-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.social-card {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 28px;
-  padding-top: 8px;
+  gap: 12px;
+  background: var(--ink);
+  color: var(--bg);
+  padding: 18px 20px;
+  border-radius: 12px;
+  transition: background 0.2s ease, transform 0.2s ease;
 }
 
-.wheel-hint {
-  font-family: var(--mono);
-  font-size: 12px;
-  color: var(--grey);
-  letter-spacing: 0.03em;
+.social-card:hover {
+  background: var(--accent);
+  transform: translateY(-2px);
 }
 
-.social-wheel {
-  --wheel-size: 320px;
-  --radius: 130px;
-  width: var(--wheel-size);
-  height: var(--wheel-size);
-  position: relative;
-}
-
-.wheel-ring {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  position: relative;
-  background:
-    radial-gradient(circle at 30% 22%, rgba(245,243,237,0.06), transparent 60%),
-    var(--ink);
-  border: 1px solid var(--accent);
-  box-shadow: 0 20px 44px rgba(30, 29, 26, 0.18);
-}
-
-/* dotted dial ring, purely decorative, echoes the reference's disc look */
-.wheel-ring::before {
-  content: '';
-  position: absolute;
-  inset: 14px;
-  border-radius: 50%;
-  border: 1px dashed rgba(245, 243, 237, 0.16);
-}
-
-.wheel-icon {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 46px;
-  height: 46px;
-  margin: -23px 0 0 -23px;
-  transform: rotate(var(--angle)) translate(var(--radius)) rotate(calc(-1 * var(--angle)));
-  border-radius: 50%;
-  background: var(--bg);
-  border: 1px solid transparent;
+.social-card-icon {
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.18);
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
 }
 
-.wheel-icon img {
+.social-card-icon img {
+  width: 20px;
+  height: 20px;
+  filter: brightness(0) invert(1); /* flattens any brand-colored icon to cream so it reads on the dark card */
+}
+
+.social-card-icon svg {
   width: 20px;
   height: 20px;
 }
 
-.wheel-icon:hover {
-  transform: rotate(var(--angle)) translate(var(--radius)) rotate(calc(-1 * var(--angle))) scale(1.08);
+.social-card-label {
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 15px;
+  flex: 1;
 }
 
-.wheel-icon[aria-pressed="true"] {
-  background: var(--accent);
-  box-shadow: 0 0 0 4px rgba(59, 110, 88, 0.28);
-}
-
-.wheel-icon[aria-pressed="true"] img {
-  /* swap to a light icon so it stays visible on the accent-green background */
-  filter: brightness(0) invert(1);
-}
-
-.wheel-center {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 62%;
-  aspect-ratio: 1 / 1;
-  border-radius: 50%;
-  background: rgba(245, 243, 237, 0.06);
-  border: 1px solid rgba(245, 243, 237, 0.14);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  text-align: center;
-  padding: 12px;
-}
-
-.wheel-center-icon img {
-  width: 28px;
-  height: 28px;
-  margin-bottom: 4px;
-  filter: brightness(0) invert(1); /* flattens any brand-colored icon to white/cream so it reads on the dark circle */
-}
-
-.wheel-center-name {
-  font-family: var(--serif);
-  font-weight: 500;
-  font-size: 19px;
-  color: var(--bg);
-}
-
-.wheel-center-handle {
+.social-card-arrow {
   font-family: var(--mono);
-  font-size: 11px;
-  color: rgba(245, 243, 237, 0.6);
-  overflow-wrap: anywhere;
-  max-width: 90%;
+  font-size: 13px;
+  opacity: 0.75;
 }
 
-.wheel-open-btn {
-  min-width: 200px;
-  justify-content: center;
-}
 
-/* tablet: slightly smaller disc */
-@media (max-width: 900px) {
-  .social-wheel { --wheel-size: 280px; --radius: 114px; }
-  .wheel-icon { width: 42px; height: 42px; margin: -21px 0 0 -21px; }
-}
 
-/* mobile: smaller still, keeps every icon comfortably tappable */
-@media (max-width: 480px) {
-  .social-wheel { --wheel-size: 240px; --radius: 96px; }
-  .wheel-icon { width: 40px; height: 40px; margin: -20px 0 0 -20px; }
-  .wheel-icon img { width: 18px; height: 18px; }
-  .wheel-center-name { font-size: 16px; }
-  .wheel-center-handle { font-size: 10px; }
+@media (max-width: 560px) {
+  .social-grid { grid-template-columns: 1fr; }
 }
 
 /* ----- contact ----- */
@@ -647,7 +549,6 @@ section {
   .contact-box { padding: 32px 24px; }
 }
 
-/* ----- footer ----- */
 footer {
   padding: 36px 0 60px;
   font-family: var(--mono);
@@ -667,7 +568,6 @@ footer {
   }
 }
 
-/* ----- reveal animation ----- */
 .reveal {
   opacity: 0;
   transform: translateY(16px);
