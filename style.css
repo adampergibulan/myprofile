@@ -15,6 +15,7 @@ body {
   font-family: 'Inter', sans-serif;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden; /* stops any stray element from causing horizontal scroll on mobile */
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -31,6 +32,11 @@ a:focus-visible,
 button:focus-visible {
   outline: 2px solid #3B6E58;
   outline-offset: 3px;
+}
+
+img {
+  max-width: 100%;
+  display: block;
 }
 
 /* ----- vars ----- */
@@ -51,7 +57,8 @@ button:focus-visible {
 .wrap {
   max-width: 960px;
   margin: 0 auto;
-  padding: 0 32px;
+  /* fluid side padding: never cramped on phones, never huge on desktop */
+  padding: 0 clamp(20px, 5vw, 32px);
 }
 
 /* ----- header / nav ----- */
@@ -68,13 +75,16 @@ nav.wrap {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 20px 32px;
+  gap: 16px;
+  padding-top: 18px;
+  padding-bottom: 18px;
 }
 
 .brand {
   font-family: var(--mono);
   font-size: 13px;
   letter-spacing: 0.04em;
+  white-space: nowrap;
 }
 
 .navlinks {
@@ -88,6 +98,7 @@ nav.wrap {
   position: relative;
   color: var(--ink-soft);
   transition: color 0.2s ease;
+  padding: 4px 0; /* bigger tap target on touch devices */
 }
 
 .navlinks a:hover {
@@ -109,11 +120,19 @@ nav.wrap {
   width: 100%;
 }
 
-@media (max-width: 640px) {
-  .navlinks {
-    gap: 14px;
-    font-size: 11px;
-  }
+/* tablet: tighten nav a touch */
+@media (max-width: 900px) {
+  .navlinks { gap: 18px; }
+}
+
+/* small phones: brand name + nav can get tight, shrink both */
+@media (max-width: 480px) {
+  .brand { font-size: 11px; }
+  .navlinks { gap: 12px; font-size: 10.5px; }
+}
+
+@media (max-width: 360px) {
+  .navlinks { gap: 9px; font-size: 9.5px; }
 }
 
 /* ----- hero ----- */
@@ -128,9 +147,10 @@ nav.wrap {
 .hero h1 {
   font-family: var(--serif);
   font-weight: 500;
-  font-size: clamp(36px, 6vw, 64px);
+  font-size: clamp(32px, 6vw, 64px);
   line-height: 1.05;
   letter-spacing: -0.01em;
+  word-break: break-word;
 }
 
 .hero h1 .underline {
@@ -148,7 +168,7 @@ nav.wrap {
 
 .hero .role {
   font-family: var(--mono);
-  font-size: 14px;
+  font-size: clamp(12px, 2vw, 14px);
   color: var(--accent);
   margin-top: 18px;
 }
@@ -156,12 +176,13 @@ nav.wrap {
 .hero p.lede {
   margin-top: 20px;
   max-width: 48ch;
-  font-size: 16.5px;
+  font-size: clamp(15px, 2vw, 16.5px);
   color: var(--ink-soft);
 }
 
 .quick-social {
   display: flex;
+  flex-wrap: wrap;
   gap: 16px;
   margin-top: 28px;
   font-family: var(--mono);
@@ -211,14 +232,34 @@ nav.wrap {
   display: none;
 }
 
-@media (max-width: 720px) {
+/* ---- TABLET (laptop small / iPad landscape & portrait) ---- */
+@media (max-width: 900px) {
   .hero {
-    grid-template-columns: 1fr;
+    padding: 80px 0 56px;
+    gap: 36px;
+    grid-template-columns: 1fr 220px; /* keep side-by-side but shrink photo column */
+  }
+  .photo-slot { max-width: 220px; }
+}
+
+/* ---- MOBILE: stack, photo on top ---- */
+@media (max-width: 680px) {
+  .hero {
+    display: flex;
+    flex-direction: column-reverse; /* photo (last in HTML) shows first */
+    padding: 56px 0 40px;
+    gap: 28px;
+    text-align: left;
   }
   .photo-slot {
-    max-width: 220px;
+    max-width: 180px;
     margin: 0 auto;
   }
+  .quick-social { justify-content: flex-start; }
+}
+
+@media (max-width: 400px) {
+  .photo-slot { max-width: 150px; }
 }
 
 /* ----- sections ----- */
@@ -248,9 +289,14 @@ section {
 .section-title {
   font-family: var(--serif);
   font-weight: 500;
-  font-size: clamp(26px, 4vw, 36px);
+  font-size: clamp(24px, 4vw, 36px);
   margin-bottom: 32px;
   max-width: 20ch;
+}
+
+@media (max-width: 680px) {
+  section { padding: 56px 0; }
+  .section-title { margin-bottom: 24px; }
 }
 
 /* about */
@@ -286,6 +332,7 @@ section {
 @media (max-width: 720px) {
   .about-grid {
     grid-template-columns: 1fr;
+    gap: 32px;
   }
 }
 
@@ -325,7 +372,7 @@ section {
 .project-row h3 {
   font-family: var(--serif);
   font-weight: 500;
-  font-size: 24px;
+  font-size: clamp(19px, 3vw, 24px);
   margin-bottom: 8px;
 }
 
@@ -375,7 +422,22 @@ section {
   transform: translate(2px, -2px);
 }
 
-/* socials */
+/* phones: drop the fixed 60px number column so title/description
+   get the full width instead of being squeezed next to it */
+@media (max-width: 560px) {
+  .project-row {
+    grid-template-columns: 1fr;
+    gap: 4px;
+    padding: 24px 0;
+  }
+  .p-num {
+    padding-top: 0;
+    font-size: 12px;
+    margin-bottom: 2px;
+  }
+}
+
+/* ----- socials ----- */
 .connect-list {
   display: grid;
   border-top: 1px solid var(--line);
@@ -388,6 +450,7 @@ section {
   padding: 20px 0;
   border-bottom: 1px solid var(--line);
   transition: padding-left 0.2s ease;
+  gap: 12px;
 }
 
 .connect-item:hover {
@@ -396,13 +459,15 @@ section {
 
 .connect-item .platform {
   font-family: var(--serif);
-  font-size: 21px;
+  font-size: clamp(17px, 3vw, 21px);
 }
 
 .connect-item .handle {
   font-family: var(--mono);
-  font-size: 13px;
+  font-size: 12.5px;
   color: var(--grey);
+  text-align: right;
+  overflow-wrap: anywhere; /* long handles/urls wrap instead of overflowing on phone */
 }
 
 .connect-item .arrow {
@@ -410,13 +475,20 @@ section {
   color: var(--accent);
   opacity: 0;
   transition: opacity 0.2s ease;
+  flex-shrink: 0;
 }
 
 .connect-item:hover .arrow {
   opacity: 1;
 }
 
-/* contact */
+/* on touch devices there's no hover, so always show the arrow
+   and drop the hover-only affordances */
+@media (hover: none) {
+  .connect-item .arrow { opacity: 0.6; }
+}
+
+/* ----- contact ----- */
 .contact-box {
   background: var(--bg-soft);
   border: 1px solid var(--line);
@@ -452,7 +524,11 @@ section {
   border-color: var(--accent);
 }
 
-/* footer */
+@media (max-width: 560px) {
+  .contact-box { padding: 32px 24px; }
+}
+
+/* ----- footer ----- */
 footer {
   padding: 36px 0 60px;
   font-family: var(--mono);
@@ -464,7 +540,15 @@ footer {
   gap: 10px;
 }
 
-/* reveal animation */
+@media (max-width: 480px) {
+  footer {
+    flex-direction: column;
+    gap: 6px;
+    padding: 28px 0 48px;
+  }
+}
+
+/* ----- reveal animation ----- */
 .reveal {
   opacity: 0;
   transform: translateY(16px);
