@@ -137,7 +137,8 @@ nav.wrap {
 
 /* ----- hero ----- */
 .hero {
-  padding: 100px 0 72px;
+  min-height: calc(100vh - var(--header-h, 70px)); /* fills the first screen; --header-h is set by JS to the real header height */
+  padding: 40px 0;
   display: grid;
   grid-template-columns: 1.3fr 0.7fr;
   gap: 48px;
@@ -180,6 +181,21 @@ nav.wrap {
   color: var(--ink-soft);
 }
 
+/* fade + slide reveal for the hero's two blocks (text, photo).
+   unlike .reveal (which only plays once), this one is toggled on
+   every enter/exit so it replays each time you scroll back up to it. */
+.hero-reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.8s cubic-bezier(.25,.7,.35,1), transform 0.8s cubic-bezier(.25,.7,.35,1);
+}
+.hero-reveal.in {
+  opacity: 1;
+  transform: translateY(0);
+}
+.hero > .hero-reveal:nth-child(1) { transition-delay: 0s; }
+.hero > .hero-reveal:nth-child(2) { transition-delay: 0.15s; }
+
 .quick-social {
   display: flex;
   flex-wrap: wrap;
@@ -200,7 +216,7 @@ nav.wrap {
 
 /* photo slot */
 .photo-slot {
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 4 / 5; /* portrait, matches a headshot better than a square */
   width: 100%;
   max-width: 280px;
   border: 3px solid #2d2d2d;
@@ -219,6 +235,7 @@ nav.wrap {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: top center; /* keeps the face as the anchor point, crops from the bottom instead */
   display: block;
 }
 
@@ -235,7 +252,8 @@ nav.wrap {
 /* ---- TABLET (laptop small / iPad landscape & portrait) ---- */
 @media (max-width: 900px) {
   .hero {
-    padding: 80px 0 56px;
+    min-height: calc(100vh - var(--header-h, 64px));
+    padding: 32px 0;
     gap: 36px;
     grid-template-columns: 1fr 220px; /* keep side-by-side but shrink photo column */
   }
@@ -247,7 +265,9 @@ nav.wrap {
   .hero {
     display: flex;
     flex-direction: column-reverse; /* photo (last in HTML) shows first */
-    padding: 56px 0 40px;
+    justify-content: center;
+    min-height: calc(100vh - var(--header-h, 56px));
+    padding: 28px 0;
     gap: 28px;
     text-align: left;
   }

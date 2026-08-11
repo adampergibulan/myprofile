@@ -30,7 +30,7 @@
 
     <!-- HERO -->
     <section class="hero" style="border-top:none;">
-      <div>
+      <div class="hero-reveal">
         <h1>Mohammad Adam Danish<span class="underline"></span></h1>
         <div class="role">CS Student | Aspiring Software Developer</div>
         <p class="lede">
@@ -42,7 +42,7 @@
         </div>
       </div>
 
-      <div class="photo-slot">
+      <div class="photo-slot hero-reveal">
         <img src="images/adamshot.png" alt="Adam Danish">
       </div>
     </section>
@@ -50,7 +50,7 @@
     <!-- ABOUT -->
     <section id="about" class="reveal">
       <div class="section-label">01 — ABOUT</div>
-      <h2 class="section-title">About Me</h2>
+      <h2 class="section-title">A Little About Me</h2>
       <div class="about-grid">
         <div>
           <p>
@@ -199,6 +199,16 @@
   </main>
 
   <script>
+    // keep --header-h in sync with the real (sticky) header height,
+    // so the hero can fill exactly one screen's worth of space below it
+    const header = document.querySelector('header');
+    function setHeaderHeight() {
+      document.documentElement.style.setProperty('--header-h', header.offsetHeight + 'px');
+    }
+    setHeaderHeight();
+    window.addEventListener('resize', setHeaderHeight);
+
+    // one-time reveal for regular sections (about, projects, socials, contact)
     const reveals = document.querySelectorAll('.reveal');
     const io = new IntersectionObserver((entries) => {
       entries.forEach(e => {
@@ -209,6 +219,16 @@
       });
     }, { threshold: 0.12 });
     reveals.forEach(el => io.observe(el));
+
+    // re-triggerable reveal for the hero: plays again every time you
+    // scroll back up and it re-enters view, not just once on load
+    const heroReveals = document.querySelectorAll('.hero-reveal');
+    const heroIo = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        e.target.classList.toggle('in', e.isIntersecting);
+      });
+    }, { threshold: 0.2 });
+    heroReveals.forEach(el => heroIo.observe(el));
   </script>
 
 </body>
