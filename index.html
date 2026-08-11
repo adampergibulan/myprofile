@@ -148,38 +148,51 @@
       </div>
     </section>
 
-    <!-- SOCIALS -->
-    <section id="socials" class="reveal">
-      <div class="section-label">03 — SOCIALS</div>
-      <h2 class="section-title">You can find me here</h2>
-      <div class="connect-list">
-        <a class="connect-item" href="#" target="_blank">
-          <span class="platform">GitHub</span>
-          <span class="handle">@adampergibulan</span>
-          <span class="arrow">↗</span>
-        </a>
-        <a class="connect-item" href="#" target="_blank">
-          <span class="platform">LinkedIn</span>
-          <span class="handle">/in/mohammad-adam-danish/</span>
-          <span class="arrow">↗</span>
-        </a>
-        <a class="connect-item" href="#" target="_blank">
-          <span class="platform">Instagram</span>
-          <span class="handle">@adampergibulan</span>
-          <span class="arrow">↗</span>
-        </a>
-        <a class="connect-item" href="#" target="_blank">
-          <span class="platform">Threads</span>
-          <span class="handle">@adampergibulan</span>
-          <span class="arrow">↗</span>
-        </a>
-        <a class="connect-item" href="#" target="_blank">
-          <span class="platform">Tiktok</span>
-          <span class="handle">@adampergibulan</span>
-          <span class="arrow">↗</span>
-        </a>
+<!-- SOCIALS -->
+<section id="socials" class="reveal">
+  <div class="section-label">03 — SOCIALS</div>
+  <h2 class="section-title">You can find me here</h2>
+
+  <div class="social-wheel-wrap">
+    <p class="wheel-hint">Tap an icon to see the link</p>
+
+    <div class="social-wheel">
+      <div class="wheel-ring">
+
+        <button class="wheel-icon" style="--angle:-90deg" data-label="GitHub" data-handle="@adampergibulan" data-url="https://github.com/adampergibulan" data-slug="github" aria-label="GitHub" aria-pressed="true">
+          <img src="https://cdn.simpleicons.org/github" alt="">
+        </button>
+
+        <button class="wheel-icon" style="--angle:-18deg" data-label="LinkedIn" data-handle="/in/mohammad-adam-danish/" data-url="https://linkedin.com/in/mohammad-adam-danish" data-slug="linkedin" aria-label="LinkedIn" aria-pressed="false">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-original.svg" alt="">
+        </button>
+
+        <button class="wheel-icon" style="--angle:54deg" data-label="Instagram" data-handle="@adampergibulan" data-url="#" data-slug="instagram" aria-label="Instagram" aria-pressed="false">
+          <img src="https://cdn.simpleicons.org/instagram" alt="">
+        </button>
+
+        <button class="wheel-icon" style="--angle:126deg" data-label="Threads" data-handle="@adampergibulan" data-url="#" data-slug="threads" aria-label="Threads" aria-pressed="false">
+          <img src="https://cdn.simpleicons.org/threads" alt="">
+        </button>
+
+        <button class="wheel-icon" style="--angle:198deg" data-label="Tiktok" data-handle="@adampergibulan" data-url="#" data-slug="tiktok" aria-label="TikTok" aria-pressed="false">
+          <img src="https://cdn.simpleicons.org/tiktok" alt="">
+        </button>
+
+        <div class="wheel-center">
+          <div class="wheel-center-icon" id="wheelCenterIcon">
+            <img src="https://cdn.simpleicons.org/github/F5F3ED" alt="">
+          </div>
+          <div class="wheel-center-name" id="wheelCenterName">GitHub</div>
+          <div class="wheel-center-handle" id="wheelCenterHandle">@adampergibulan</div>
+        </div>
+
       </div>
-    </section>
+    </div>
+
+    <a class="btn wheel-open-btn" id="wheelOpenBtn" href="https://github.com/adampergibulan" target="_blank" rel="noopener noreferrer">Open GitHub ↗</a>
+  </div>
+</section>
 
     <!-- CONTACT -->
     <section id="contact" class="reveal">
@@ -198,38 +211,7 @@
 
   </main>
 
-  <script>
-    // keep --header-h in sync with the real (sticky) header height,
-    // so the hero can fill exactly one screen's worth of space below it
-    const header = document.querySelector('header');
-    function setHeaderHeight() {
-      document.documentElement.style.setProperty('--header-h', header.offsetHeight + 'px');
-    }
-    setHeaderHeight();
-    window.addEventListener('resize', setHeaderHeight);
-
-    // one-time reveal for regular sections (about, projects, socials, contact)
-    const reveals = document.querySelectorAll('.reveal');
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          e.target.classList.add('in');
-          io.unobserve(e.target);
-        }
-      });
-    }, { threshold: 0.12 });
-    reveals.forEach(el => io.observe(el));
-
-    // re-triggerable reveal for the hero: plays again every time you
-    // scroll back up and it re-enters view, not just once on load
-    const heroReveals = document.querySelectorAll('.hero-reveal');
-    const heroIo = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        e.target.classList.toggle('in', e.isIntersecting);
-      });
-    }, { threshold: 0.2 });
-    heroReveals.forEach(el => heroIo.observe(el));
-  </script>
+  <script src="script.js"></script>
 
 </body>
 </html>

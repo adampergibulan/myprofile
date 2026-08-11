@@ -476,55 +476,149 @@ section {
   }
 }
 
-/* ----- socials ----- */
-.connect-list {
-  display: grid;
-  border-top: 1px solid var(--line);
+/* ----- socials: radial wheel ----- */
+.social-wheel-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+  padding-top: 8px;
 }
 
-.connect-item {
+.wheel-hint {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--grey);
+  letter-spacing: 0.03em;
+}
+
+.social-wheel {
+  --wheel-size: 320px;
+  --radius: 130px;
+  width: var(--wheel-size);
+  height: var(--wheel-size);
+  position: relative;
+}
+
+.wheel-ring {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  position: relative;
+  background:
+    radial-gradient(circle at 30% 22%, rgba(245,243,237,0.06), transparent 60%),
+    var(--ink);
+  border: 1px solid var(--accent);
+  box-shadow: 0 20px 44px rgba(30, 29, 26, 0.18);
+}
+
+/* dotted dial ring, purely decorative, echoes the reference's disc look */
+.wheel-ring::before {
+  content: '';
+  position: absolute;
+  inset: 14px;
+  border-radius: 50%;
+  border: 1px dashed rgba(245, 243, 237, 0.16);
+}
+
+.wheel-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 46px;
+  height: 46px;
+  margin: -23px 0 0 -23px;
+  transform: rotate(var(--angle)) translate(var(--radius)) rotate(calc(-1 * var(--angle)));
+  border-radius: 50%;
+  background: var(--bg);
+  border: 1px solid transparent;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 20px 0;
-  border-bottom: 1px solid var(--line);
-  transition: padding-left 0.2s ease;
-  gap: 12px;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.18);
 }
 
-.connect-item:hover {
-  padding-left: 10px;
+.wheel-icon img {
+  width: 20px;
+  height: 20px;
 }
 
-.connect-item .platform {
+.wheel-icon:hover {
+  transform: rotate(var(--angle)) translate(var(--radius)) rotate(calc(-1 * var(--angle))) scale(1.08);
+}
+
+.wheel-icon[aria-pressed="true"] {
+  background: var(--accent);
+  box-shadow: 0 0 0 4px rgba(59, 110, 88, 0.28);
+}
+
+.wheel-icon[aria-pressed="true"] img {
+  filter: brightness(0) invert(1);
+}
+
+/* Center icon styling - ensures consistency regardless of icon source */
+.wheel-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 62%;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  background: rgba(245, 243, 237, 0.06);
+  border: 1px solid rgba(245, 243, 237, 0.14);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  text-align: center;
+  padding: 12px;
+}
+
+/* Force center icon to be cream/white for contrast against dark background */
+.wheel-center-icon img {
+  width: 28px;
+  height: 28px;
+  margin-bottom: 4px;
+  filter: brightness(0) invert(1);
+}
+
+.wheel-center-name {
   font-family: var(--serif);
-  font-size: clamp(17px, 3vw, 21px);
+  font-weight: 500;
+  font-size: 19px;
+  color: var(--bg);
 }
 
-.connect-item .handle {
+.wheel-center-handle {
   font-family: var(--mono);
-  font-size: 12.5px;
-  color: var(--grey);
-  text-align: right;
-  overflow-wrap: anywhere; /* long handles/urls wrap instead of overflowing on phone */
+  font-size: 11px;
+  color: rgba(245, 243, 237, 0.6);
+  overflow-wrap: anywhere;
+  max-width: 90%;
 }
 
-.connect-item .arrow {
-  font-family: var(--mono);
-  color: var(--accent);
-  opacity: 0;
-  transition: opacity 0.2s ease;
-  flex-shrink: 0;
+.wheel-open-btn {
+  min-width: 200px;
+  justify-content: center;
 }
 
-.connect-item:hover .arrow {
-  opacity: 1;
+/* tablet: slightly smaller disc */
+@media (max-width: 900px) {
+  .social-wheel { --wheel-size: 280px; --radius: 114px; }
+  .wheel-icon { width: 42px; height: 42px; margin: -21px 0 0 -21px; }
 }
 
-/* on touch devices there's no hover, so always show the arrow
-   and drop the hover-only affordances */
-@media (hover: none) {
-  .connect-item .arrow { opacity: 0.6; }
+/* mobile: smaller still, keeps every icon comfortably tappable */
+@media (max-width: 480px) {
+  .social-wheel { --wheel-size: 240px; --radius: 96px; }
+  .wheel-icon { width: 40px; height: 40px; margin: -20px 0 0 -20px; }
+  .wheel-icon img { width: 18px; height: 18px; }
+  .wheel-center-name { font-size: 16px; }
+  .wheel-center-handle { font-size: 10px; }
 }
 
 /* ----- contact ----- */
