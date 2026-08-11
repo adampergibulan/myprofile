@@ -343,10 +343,29 @@ section {
 .tool-pill {
   font-family: var(--mono);
   font-size: 12px;
-  padding: 6px 12px;
+  padding: 6px 14px 6px 10px;
   border: 1px solid var(--line);
   border-radius: 20px;
   color: var(--ink-soft);
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: var(--bg);
+  transition: border-color 0.2s ease, color 0.2s ease, transform 0.2s ease, background 0.2s ease;
+}
+
+.tool-pill img {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+  display: block;
+}
+
+.tool-pill:hover {
+  border-color: var(--accent);
+  color: var(--ink);
+  background: var(--bg-soft);
+  transform: translateY(-2px);
 }
 
 @media (max-width: 720px) {
